@@ -12,5 +12,5 @@
     android:paddingRight="16dp"
     android:paddingBottom="8dp"
     android:textSize="14sp"
-    app:fontFamily="@font/iran_yekan_fa_num"
-    tools:text="این یک متن تستی است." />
+    app:fontFamily="@font/poppins_regular"
+    tools:text="test text" />

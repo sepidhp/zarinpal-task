@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">zarinpal task</string>
 
-    <string name="video_date_and_visit_count_with_value"> %d بازدید - %s</string>
+    <string name="zarinpal">Zarinpal</string>
+    <string name="repositories">Repositories</string>
+    <string name="user_info">User info</string>
 </resources>

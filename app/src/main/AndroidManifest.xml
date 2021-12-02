@@ -18,6 +18,16 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:supportsRtl,android:allowBackup">
 
+        <!-- Activities -->
+        <activity
+            android:name=".modules.main.view.MainActivity"
+            android:screenOrientation="portrait"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
