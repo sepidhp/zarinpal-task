@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">zarinpal task</string>
+
+    <string name="video_date_and_visit_count_with_value"> %d بازدید - %s</string>
+</resources>
