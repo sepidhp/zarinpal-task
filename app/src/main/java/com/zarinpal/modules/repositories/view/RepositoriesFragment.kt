@@ -1,15 +1,17 @@
-package com.zarinpal.modules.main.view
+package com.zarinpal.modules.repositories.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.zarinpal.databinding.FragmentUserInfoBinding
+import com.zarinpal.databinding.FragmentRepositoriesBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class UserInfoFragment : Fragment() {
+@AndroidEntryPoint
+class RepositoriesFragment : Fragment() {
 
-    private var _binding: FragmentUserInfoBinding? = null
+    private var _binding: FragmentRepositoriesBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -18,7 +20,7 @@ class UserInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         if (_binding == null) {
-            _binding = FragmentUserInfoBinding.inflate(inflater, container, false)
+            _binding = FragmentRepositoriesBinding.inflate(inflater, container, false)
             setupView()
         }
 
