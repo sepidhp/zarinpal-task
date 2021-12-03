@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/userInfoFragment"
-        android:name="com.zarinpal.modules.main.view.UserInfoFragment"
+        android:name="com.zarinpal.modules.userInfo.view.UserInfoFragment"
         android:label="UserInfoFragment"
         tools:layout="@layout/fragment_user_info" />
     <fragment
         android:id="@+id/repositoriesFragment"
-        android:name="com.zarinpal.modules.main.view.RepositoriesFragment"
+        android:name="com.zarinpal.modules.repositories.view.RepositoriesFragment"
         android:label="RepositoryListFragment"
         tools:layout="@layout/fragment_repositories" />
 </navigation>
