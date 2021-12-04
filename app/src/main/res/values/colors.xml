@@ -6,6 +6,7 @@
     <color name="colorPrimaryVariant">#e6e6e6</color>
     <color name="colorOnPrimary">@color/primaryTextColor</color>
     <color name="colorSecondary">#2c4a83</color>
+    <color name="colorSecondaryLight">#d9e2f2</color>
     <color name="colorSecondaryVariant">#ffd32e</color>
     <color name="colorOnSecondary">@color/white</color>
     <color name="colorError">#D32F2F</color>

@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgUser"
         app:layout_constraintTop_toTopOf="@+id/imgUser"
-        tools:text="name" />
+        tools:text="Sepideh Hosseini" />
 
     <TextView
         android:id="@+id/txtRepositoryCount"
@@ -44,7 +44,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/imgUser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/txtName"
-        tools:text="username" />
+        tools:text="repository count 1" />
 
     <ImageView
         android:id="@+id/imageView"

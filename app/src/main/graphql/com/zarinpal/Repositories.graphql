@@ -1,0 +1,29 @@
+query Repositories($name : String!) {
+repositoryOwner(login: $name) {
+avatarUrl
+url
+resourcePath
+repositories(first: 10) {
+nodes {
+...RepositoryFragment
+}
+}
+}
+}
+
+fragment RepositoryFragment on Repository {
+id
+name
+description
+repositoryTopics(first: 10) {
+nodes {
+...TopicFragment
+}
+}
+}
+
+fragment TopicFragment on RepositoryTopic {
+topic {
+name
+}
+}

@@ -17,7 +17,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class UserInfoViewModel @Inject constructor(private val repository: UserInfoRepository) : ViewModel() {
+class UserInfoViewModel @Inject constructor(private val repository: UserInfoRepository) :
+    ViewModel() {
 
     @Inject
     lateinit var credentialManager: CredentialManager

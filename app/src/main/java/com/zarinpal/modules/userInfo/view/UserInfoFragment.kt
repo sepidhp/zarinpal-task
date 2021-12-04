@@ -29,8 +29,6 @@ class UserInfoFragment : Fragment() {
             .override(128, 128)
             .dontAnimate()
 
-    private var isFirstShow = true
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,18 +44,8 @@ class UserInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getUserInfo()
         observe()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        if (isFirstShow) {
-
-            viewModel.getUserInfo()
-
-            isFirstShow = false
-        }
     }
 
     private fun observe() {

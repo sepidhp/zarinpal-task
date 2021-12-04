@@ -7,5 +7,6 @@ import javax.inject.Inject
 
 class UserInfoRepository @Inject constructor(private val webServices: WebServices) {
 
-    fun getUserInfo(): ApolloQueryCall<UserInfoQuery.Data> = webServices.getUserInfo()
+    fun getUserInfo(): ApolloQueryCall<UserInfoQuery.Data> =
+        webServices.getUserInfo()
 }
