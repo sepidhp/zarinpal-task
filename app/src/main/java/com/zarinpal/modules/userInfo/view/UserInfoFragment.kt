@@ -28,8 +28,7 @@ class UserInfoFragment : Fragment() {
             .placeholder(R.drawable.ic_user_placeholder)
             .override(128, 128)
             .dontAnimate()
-
-    private var isFirstShow = true
+    private val name = "KarimRedaHassan"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,18 +45,8 @@ class UserInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getUserInfo(name)
         observe()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        if (isFirstShow) {
-
-            viewModel.getUserInfo()
-
-            isFirstShow = false
-        }
     }
 
     private fun observe() {
@@ -76,7 +65,7 @@ class UserInfoFragment : Fragment() {
 
                 onRetryClicked {
                     it.dismiss()
-                    viewModel.getUserInfo()
+                    viewModel.getUserInfo(name)
                 }
 
                 onExitClicked {

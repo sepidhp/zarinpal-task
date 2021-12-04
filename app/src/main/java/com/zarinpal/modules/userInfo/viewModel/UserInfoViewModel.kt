@@ -17,7 +17,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class UserInfoViewModel @Inject constructor(private val repository: UserInfoRepository) : ViewModel() {
+class UserInfoViewModel @Inject constructor(private val repository: UserInfoRepository) :
+    ViewModel() {
 
     @Inject
     lateinit var credentialManager: CredentialManager
@@ -31,7 +32,7 @@ class UserInfoViewModel @Inject constructor(private val repository: UserInfoRepo
     private val _userInfo = MutableLiveData<UserInfoQuery.User>()
     val userInfo: LiveData<UserInfoQuery.User> = _userInfo
 
-    fun getUserInfo() {
+    fun getUserInfo(name: String) {
 
         _isApiCalling.value = true
 
@@ -52,7 +53,7 @@ class UserInfoViewModel @Inject constructor(private val repository: UserInfoRepo
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = repository.getUserInfo().await()
+            val result = repository.getUserInfo(name).await()
 
             withContext(Dispatchers.Main) {
 
