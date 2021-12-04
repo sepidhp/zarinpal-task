@@ -62,7 +62,7 @@ class RepositoriesViewModel @Inject constructor(private val repository: Reposito
                 _isApiCalling.value = false
 
                 _repositories.value =
-                    result.data?.viewer?.repositories?.nodes?.mapNotNull { it?.fragments?.repositoryFragment }
+                    result.data?.repositoryOwner?.repositories?.nodes?.mapNotNull { it?.fragments?.repositoryFragment }
                         ?: emptyList()
             }
         }

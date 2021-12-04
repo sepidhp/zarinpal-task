@@ -32,7 +32,7 @@ class UserInfoViewModel @Inject constructor(private val repository: UserInfoRepo
     private val _userInfo = MutableLiveData<UserInfoQuery.User>()
     val userInfo: LiveData<UserInfoQuery.User> = _userInfo
 
-    fun getUserInfo(name: String) {
+    fun getUserInfo() {
 
         _isApiCalling.value = true
 
@@ -53,7 +53,7 @@ class UserInfoViewModel @Inject constructor(private val repository: UserInfoRepo
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = repository.getUserInfo(name).await()
+            val result = repository.getUserInfo().await()
 
             withContext(Dispatchers.Main) {
 

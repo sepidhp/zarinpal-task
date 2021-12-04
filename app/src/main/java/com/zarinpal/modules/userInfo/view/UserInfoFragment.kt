@@ -28,7 +28,6 @@ class UserInfoFragment : Fragment() {
             .placeholder(R.drawable.ic_user_placeholder)
             .override(128, 128)
             .dontAnimate()
-    private val name = "KarimRedaHassan"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +44,7 @@ class UserInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getUserInfo(name)
+        viewModel.getUserInfo()
         observe()
     }
 
@@ -65,7 +64,7 @@ class UserInfoFragment : Fragment() {
 
                 onRetryClicked {
                     it.dismiss()
-                    viewModel.getUserInfo(name)
+                    viewModel.getUserInfo()
                 }
 
                 onExitClicked {

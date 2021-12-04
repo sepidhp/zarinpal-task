@@ -1,14 +1,9 @@
-query Repositories(
-$repositoriesCount: Int!
-$orderBy: RepositoryOrderField!
-$orderDirection: OrderDirection!
-) {
-viewer {
-repositories(
-first: $repositoriesCount
-orderBy: { field: $orderBy, direction: $orderDirection }
-ownerAffiliations: [OWNER]
-) {
+query Repositories($name : String!) {
+repositoryOwner(login: $name) {
+avatarUrl
+url
+resourcePath
+repositories(first: 10) {
 nodes {
 ...RepositoryFragment
 }
@@ -20,4 +15,15 @@ fragment RepositoryFragment on Repository {
 id
 name
 description
+repositoryTopics(first: 10) {
+nodes {
+...TopicFragment
+}
+}
+}
+
+fragment TopicFragment on RepositoryTopic {
+topic {
+name
+}
 }

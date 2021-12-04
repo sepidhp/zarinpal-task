@@ -3,9 +3,12 @@ package com.zarinpal.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zarinpal.databinding.ItemRepositoryBinding
+import com.zarinpal.extension.toPx
 import com.zarinpal.fragment.RepositoryFragment
+import com.zarinpal.utils.LinearDividerDecoration
 
 class RepositoryAdapter() :
     RecyclerView.Adapter<RepositoryAdapter.Holder>() {
@@ -32,21 +35,49 @@ class RepositoryAdapter() :
 
     inner class Holder(private var binding: ItemRepositoryBinding) : RecyclerView.ViewHolder(
         binding.root
-    ), View.OnClickListener {
+    ) {
+
+        val topicAdapter by lazy { RepositoryTopicAdapter() }
 
         init {
             setupView()
         }
 
-        private fun setupView() {}
+        private fun setupView() {
+
+            // setup topics
+            binding.rcvTopics.apply {
+
+                layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                addItemDecoration(
+                    LinearDividerDecoration(
+                        LinearDividerDecoration.HORIZONTAL,
+                        16.toPx(),
+                        false
+                    )
+                )
+                adapter = topicAdapter
+            }
+        }
 
         fun bindTo(repository: RepositoryFragment) {
             binding.divider.visibility =
                 if (layoutPosition == list.lastIndex) View.GONE else View.VISIBLE
             binding.txtRepositoryName.text = repository.name
             binding.txtRepositoryDescription.text = repository.description
-        }
 
-        override fun onClick(v: View?) {}
+            // set topics
+            if (getTopics(repository).isNotEmpty()) {
+                binding.rcvTopics.visibility = View.VISIBLE
+                topicAdapter.list = getTopics(repository).toMutableList()
+                topicAdapter.notifyDataSetChanged()
+            } else
+                binding.rcvTopics.visibility = View.GONE
+        }
     }
+
+    private fun getTopics(repository: RepositoryFragment) =
+        repository.repositoryTopics.nodes?.mapNotNull { it?.fragments?.topicFragment }
+            ?: emptyList()
 }
