@@ -17,4 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.MaterialProgressBar.ProgressBar.Small.NoPadding"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="16dp"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:mpb_indeterminateTint="@color/colorSecondary"
+        app:mpb_progressStyle="circular"
+        app:mpb_useIntrinsicPadding="false" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

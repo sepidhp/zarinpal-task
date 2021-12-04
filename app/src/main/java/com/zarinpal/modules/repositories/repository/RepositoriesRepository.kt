@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class RepositoriesRepository @Inject constructor(private val webServices: WebServices) {
 
-    fun getRepositories() = webServices.getRepositories()
+    fun getRepositories(cursor : String?) = webServices.getRepositories(cursor)
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo.coroutines.await
+import com.zarinpal.RepositoriesQuery
 import com.zarinpal.UserInfoQuery
 import com.zarinpal.data.server.CallException
 import com.zarinpal.fragment.RepositoryFragment
@@ -31,10 +32,10 @@ class RepositoriesViewModel @Inject constructor(private val repository: Reposito
     private val _apiException = MutableLiveData<Throwable>()
     val apiException: LiveData<Throwable> = _apiException
 
-    private val _repositories = MutableLiveData<List<RepositoryFragment>>()
-    val repositories: LiveData<List<RepositoryFragment>> = _repositories
+    private val _repositoryInfo = MutableLiveData<RepositoriesQuery.Repositories>()
+    val repositoryInfo: LiveData<RepositoriesQuery.Repositories> = _repositoryInfo
 
-    fun getRepositories() {
+    fun getRepositoriesApi(cursor: String?) {
 
         _isApiCalling.value = true
 
@@ -55,16 +56,18 @@ class RepositoriesViewModel @Inject constructor(private val repository: Reposito
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = repository.getRepositories().await()
+            val result = repository.getRepositories(cursor).await()
 
             withContext(Dispatchers.Main) {
 
                 _isApiCalling.value = false
 
-                _repositories.value =
-                    result.data?.repositoryOwner?.repositories?.nodes?.mapNotNull { it?.fragments?.repositoryFragment }
-                        ?: emptyList()
+                _repositoryInfo.value = result.data?.repositoryOwner?.repositories
             }
         }
     }
+
+    fun getRepositories(result: RepositoriesQuery.Repositories) =
+        result.nodes?.mapNotNull { it?.fragments?.repositoryFragment }
+            ?: emptyList()
 }
