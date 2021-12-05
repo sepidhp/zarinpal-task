@@ -5,28 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.zarinpal.R
+import com.zarinpal.adapter.ViewPager2Adapter
 import com.zarinpal.databinding.ActivityMainBinding
+import com.zarinpal.modules.repositories.view.RepositoriesFragment
+import com.zarinpal.modules.userInfo.view.UserInfoFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-
-    private val navController by lazy {
-        (supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment).navController
-    }
-    private val navOptions by lazy {
-        NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setPopUpTo(navController.graph.startDestination, false)
-            .setEnterAnim(R.anim.slide_in_right)
-            .setExitAnim(R.anim.slide_out_left)
-            .setPopEnterAnim(R.anim.slide_in_right)
-            .setPopExitAnim(R.anim.slide_out_left)
-            .build()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,27 +27,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupView() {
 
-        // set listener
-        binding.tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        // setup viewpager
+        val adapter = ViewPager2Adapter(this)
+        adapter.addFragment(UserInfoFragment.newInstance(), getString(R.string.user_info))
+        adapter.addFragment(RepositoriesFragment.newInstance(), getString(R.string.repositories))
+        binding.vpg.adapter = adapter
+        binding.vpg.currentItem = 0
 
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when (tab.position) {
-                    0 -> navController.navigate(R.id.userInfoFragment, null, navOptions)
-                    1 -> navController.navigate(R.id.repositoriesFragment, null, navOptions)
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-
-        })
-    }
-
-    override fun onBackPressed() {
-        if (binding.tab.selectedTabPosition != 0)
-            binding.tab.getTabAt(0)?.select()
-        else
-            super.onBackPressed()
+        TabLayoutMediator(binding.tab, binding.vpg) { tab, position ->
+            tab.text = adapter.getPageTitle(position)
+        }.attach()
     }
 }
