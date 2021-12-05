@@ -53,7 +53,7 @@ class UserInfoViewModel @Inject constructor(private val repository: UserInfoRepo
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = repository.getUserInfo().await()
+            val result = repository.getUserInfo()
 
             withContext(Dispatchers.Main) {
 

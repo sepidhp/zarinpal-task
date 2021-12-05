@@ -11,8 +11,8 @@ import javax.inject.Inject
 
 class WebServices @Inject constructor(private val apolloClient: ApolloClient) {
 
-    fun getUserInfo(): ApolloQueryCall<UserInfoQuery.Data> =
-        apolloClient.query(UserInfoQuery(QueryFields.USERNAME))
+    suspend fun getUserInfo(): Response<UserInfoQuery.Data> =
+        apolloClient.query(UserInfoQuery(QueryFields.USERNAME)).await()
 
     suspend fun getRepositories(cursor: String?): Response<RepositoriesQuery.Data> =
         apolloClient.query(

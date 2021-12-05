@@ -22,7 +22,6 @@ class UserInfoFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: UserInfoViewModel by activityViewModels()
-    private val progressDialog by lazy { ProgressDialog(requireActivity(), false) }
     private val requestOptions =
         RequestOptions()
             .placeholder(R.drawable.ic_user_placeholder)
@@ -56,11 +55,7 @@ class UserInfoFragment : Fragment() {
     private fun observe() {
 
         viewModel.isApiCalling.observe(viewLifecycleOwner) {
-
-            if (it)
-                progressDialog.show()
-            else
-                progressDialog.dismiss()
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         }
 
         viewModel.apiException.observe(viewLifecycleOwner) {

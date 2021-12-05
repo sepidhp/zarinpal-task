@@ -67,4 +67,8 @@ object SingletonModule {
     @Provides
     @Singleton
     fun provideRepositoriesCacheDao(database: AppDatabase) = database.repositoriesCacheDao()
+
+    @Provides
+    @Singleton
+    fun provideUserInfoCacheDao(database: AppDatabase) = database.userInfoCacheDao()
 }
