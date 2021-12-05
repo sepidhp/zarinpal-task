@@ -1,9 +1,17 @@
-query Repositories($name : String!) {
+query Repositories($repositoryCount : Int! , $topicCount : Int!  ,  $name : String! , $cursor: String) {
 repositoryOwner(login: $name) {
+id
 avatarUrl
 url
 resourcePath
-repositories(first: 10) {
+repositories(first: $repositoryCount, after: $cursor) {
+pageInfo {
+endCursor
+hasNextPage
+hasPreviousPage
+startCursor
+}
+totalCount
 nodes {
 ...RepositoryFragment
 }
@@ -15,7 +23,7 @@ fragment RepositoryFragment on Repository {
 id
 name
 description
-repositoryTopics(first: 10) {
+repositoryTopics(first: $topicCount) {
 nodes {
 ...TopicFragment
 }

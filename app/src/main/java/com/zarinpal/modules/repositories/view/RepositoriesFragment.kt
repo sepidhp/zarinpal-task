@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zarinpal.RepositoriesQuery
 import com.zarinpal.adapter.RepositoryAdapter
 import com.zarinpal.data.server.apiDialog
 import com.zarinpal.databinding.FragmentRepositoriesBinding
 import com.zarinpal.extension.toPx
+import com.zarinpal.fragment.RepositoryFragment
 import com.zarinpal.modules.repositories.viewModel.RepositoriesViewModel
+import com.zarinpal.utils.EndlessRecyclerViewScrollListener
 import com.zarinpal.utils.LinearDividerDecoration
-import com.zarinpal.utils.ProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,8 +25,11 @@ class RepositoriesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: RepositoriesViewModel by activityViewModels()
-    private val progressDialog by lazy { ProgressDialog(requireActivity(), false) }
     private val repositoryAdapter by lazy { RepositoryAdapter() }
+    private lateinit var repositoryInfo: RepositoriesQuery.Repositories
+    private lateinit var repositories: List<RepositoryFragment>
+
+    private var cursor: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,10 +44,15 @@ class RepositoriesFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getRepositories()
+        viewModel.getRepositoriesApi(cursor)
         observe()
     }
 
@@ -61,17 +71,14 @@ class RepositoriesFragment : Fragment() {
                 )
             )
             adapter = repositoryAdapter
+            addOnScrollListener(scrollListener)
         }
     }
 
     private fun observe() {
 
         viewModel.isApiCalling.observe(viewLifecycleOwner) {
-
-            if (it)
-                progressDialog.show()
-            else
-                progressDialog.dismiss()
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         }
 
         viewModel.apiException.observe(viewLifecycleOwner) {
@@ -80,7 +87,7 @@ class RepositoriesFragment : Fragment() {
 
                 onRetryClicked {
                     it.dismiss()
-                    viewModel.getRepositories()
+                    viewModel.getRepositoriesApi(cursor)
                 }
 
                 onExitClicked {
@@ -90,15 +97,31 @@ class RepositoriesFragment : Fragment() {
             }.show()
         }
 
-        viewModel.repositories.observe(viewLifecycleOwner) {
+        viewModel.repositoryInfo.observe(viewLifecycleOwner) {
+            repositoryInfo = it
+            repositories = viewModel.getRepositories(it)
+            cursor = it.pageInfo.endCursor
             setData()
         }
     }
 
     private fun setData() {
 
-        // set list
-        repositoryAdapter.list = viewModel.repositories.value!!.toMutableList()
-        repositoryAdapter.notifyDataSetChanged()
+        if (repositories.isNotEmpty()) {
+
+            if (repositoryInfo.totalCount == repositories.size)
+                repositoryAdapter.list = repositories.toMutableList()
+            else
+                repositoryAdapter.list.addAll(repositories)
+            repositoryAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private val scrollListener by lazy {
+        EndlessRecyclerViewScrollListener(binding.rcvRepositories.layoutManager as LinearLayoutManager) { page, totalItemsCount, view ->
+
+            if (repositoryInfo.pageInfo.hasNextPage)
+                viewModel.getRepositoriesApi(cursor)
+        }
     }
 }

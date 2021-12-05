@@ -1,26 +1,27 @@
 query UserInfo($name : String!){
-  user(login: $name) {
-  name
-  starredRepositories {
-  totalCount
+user(login: $name) {
+id
+name
+starredRepositories {
+totalCount
 }
 avatarUrl
 bio
 company
 followers {
-  totalCount
+totalCount
 }
 following {
-  totalCount
+totalCount
 }
 company
 email
 watching {
-  totalCount
+totalCount
 }
 location
 repositories{
-  totalCount
+totalCount
 }
 }
 }
