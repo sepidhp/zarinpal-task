@@ -30,30 +30,46 @@ class RepositoriesFragment : Fragment() {
     private lateinit var repositories: List<RepositoryFragment>
 
     private var cursor: String? = null
+    private var isFirstShow = true
+
+    companion object {
+
+        fun newInstance(): RepositoriesFragment {
+            return RepositoriesFragment()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        if (_binding == null) {
+        if (_binding == null)
             _binding = FragmentRepositoriesBinding.inflate(inflater, container, false)
-            setupView()
-        }
 
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getRepositoriesApi(cursor)
         observe()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (isFirstShow) {
+
+            setupView()
+            viewModel.getRepositoriesApi(cursor)
+            isFirstShow = false
+        }
     }
 
     private fun setupView() {

@@ -23,7 +23,7 @@ class RepositoriesRepository @Inject constructor(
         val cachedData = local.getRepositories(cursor ?: "", threshold)
 
         if (cachedData != null)
-            return cachedData.data.toMyData(cursor)!!
+            return convertStingToMyData(cachedData.data, cursor)!!
 
         val serverData = webServices.getRepositories(cursor)
         local.insert(serverData.data!!.toJson(), cursor ?: "")
@@ -31,8 +31,11 @@ class RepositoriesRepository @Inject constructor(
     }
 }
 
-fun String?.toMyData(cursor: String?): Response<RepositoriesQuery.Data>? {
-    this ?: return null
+private fun convertStingToMyData(
+    value: String?,
+    cursor: String?
+): Response<RepositoriesQuery.Data>? {
+    value ?: return null
     val query = RepositoriesQuery(
         QueryFields.REPOSITORY_COUNT,
         QueryFields.TOPIC_COUNT,
@@ -43,5 +46,5 @@ fun String?.toMyData(cursor: String?): Response<RepositoriesQuery.Data>? {
         query,
         query.responseFieldMapper(),
         ScalarTypeAdapters.DEFAULT
-    ).parse(Buffer().writeUtf8(this))
+    ).parse(Buffer().writeUtf8(value))
 }

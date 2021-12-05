@@ -28,28 +28,45 @@ class UserInfoFragment : Fragment() {
             .override(128, 128)
             .dontAnimate()
 
+    private var isFirstShow = true
+
+    companion object {
+
+        fun newInstance(): UserInfoFragment {
+            return UserInfoFragment()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        if (_binding == null) {
+        if (_binding == null)
             _binding = FragmentUserInfoBinding.inflate(inflater, container, false)
-        }
 
         return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getUserInfo()
         observe()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (isFirstShow) {
+
+            viewModel.getUserInfo()
+            isFirstShow = false
+        }
     }
 
     private fun observe() {

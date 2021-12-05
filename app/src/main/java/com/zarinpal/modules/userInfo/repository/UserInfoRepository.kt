@@ -2,15 +2,11 @@ package com.zarinpal.modules.userInfo.repository
 
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.api.ScalarTypeAdapters
-import com.apollographql.apollo.api.toInput
 import com.apollographql.apollo.api.toJson
 import com.apollographql.apollo.response.OperationResponseParser
-import com.zarinpal.RepositoriesQuery
 import com.zarinpal.UserInfoQuery
-import com.zarinpal.data.local.dao.RepositoriesCacheDao
 import com.zarinpal.data.local.dao.UserInfoCacheDao
 import com.zarinpal.data.server.WebServices
-import com.zarinpal.modules.repositories.repository.toMyData
 import com.zarinpal.utils.QueryFields
 import okio.Buffer
 import javax.inject.Inject
@@ -25,7 +21,8 @@ class UserInfoRepository @Inject constructor(
 
         val cachedData = local.getUserInfo(threshold)
         if (cachedData != null)
-            return cachedData.data.toMyData()!!
+            return convertStingToMyData(cachedData.data)!!
+
 
         val serverData = webServices.getUserInfo()
         local.insert(serverData.data!!.toJson())
@@ -33,12 +30,12 @@ class UserInfoRepository @Inject constructor(
     }
 }
 
-fun String?.toMyData(): Response<UserInfoQuery.Data>? {
-    this ?: return null
+private fun convertStingToMyData(value: String?): Response<UserInfoQuery.Data>? {
+    value ?: return null
     val query = UserInfoQuery(QueryFields.USERNAME)
     return OperationResponseParser(
         query,
         query.responseFieldMapper(),
         ScalarTypeAdapters.DEFAULT
-    ).parse(Buffer().writeUtf8(this))
+    ).parse(Buffer().writeUtf8(value))
 }

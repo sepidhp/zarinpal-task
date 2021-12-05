@@ -1,6 +1,7 @@
 package com.zarinpal.data.server
 
 import android.app.Activity
+import com.apollographql.apollo.exception.ApolloNetworkException
 import com.zarinpal.R
 import com.zarinpal.utils.CustomDialog
 import com.zarinpal.utils.dialog
@@ -17,7 +18,7 @@ class ConnectionManager constructor(private val builder: ConnectionManagerBuilde
         var message: String? = null
         var showRetryButton = false
 
-        if (builder.exception is UnknownHostException || builder.exception is SocketException) {
+        if (builder.exception is ApolloNetworkException || builder.exception is SocketException) {
             icon = R.drawable.ic_wifi_off
             title = getString(R.string.connection_error)
             message = getString(R.string.no_internet)
