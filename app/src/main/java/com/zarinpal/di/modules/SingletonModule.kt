@@ -1,20 +1,19 @@
 package com.zarinpal.di.modules
 
 import android.content.Context
+import com.apollographql.apollo.ApolloClient
 import com.zarinpal.BuildConfig
+import com.zarinpal.data.local.AppDatabase
+import com.zarinpal.data.server.ExceptionInterceptor
+import com.zarinpal.data.server.LoggingInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import com.zarinpal.data.server.ExceptionInterceptor
-import com.zarinpal.data.server.LoggingInterceptor
-import com.zarinpal.data.server.WebServices
 import com.zarinpal.utils.CredentialManager
 import com.zarinpal.utils.SharedPreferencesHelper
 import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -39,32 +38,37 @@ object SingletonModule {
     @Provides
     fun provideHttpLoggingInterceptor() = LoggingInterceptor()
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideOkHttpClient(
         exceptionInterceptor: ExceptionInterceptor,
         loggingInterceptor: LoggingInterceptor
-    ): OkHttpClient {
-        val builder = OkHttpClient.Builder()
-        builder.connectTimeout(30, TimeUnit.SECONDS)
-        builder.writeTimeout(60, TimeUnit.SECONDS)
-        builder.readTimeout(60, TimeUnit.SECONDS)
-        builder.addInterceptor(exceptionInterceptor)
+    ): OkHttpClient = OkHttpClient.Builder().apply {
+        connectTimeout(30, TimeUnit.SECONDS)
+        writeTimeout(60, TimeUnit.SECONDS)
+        readTimeout(60, TimeUnit.SECONDS)
+        addInterceptor(exceptionInterceptor)
         if (BuildConfig.DEBUG)
-            builder.addInterceptor(loggingInterceptor)
-        return builder.build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl("")
-        .client(okHttpClient)
-        .build()
+            addInterceptor(loggingInterceptor)
+    }.build()
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): WebServices =
-        retrofit.create(WebServices::class.java)
+    fun provideApolloClient(okHttpClient: OkHttpClient): ApolloClient =
+        ApolloClient.builder()
+            .serverUrl("https://api.github.com/graphql")
+            .okHttpClient(okHttpClient)
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext context: Context) = AppDatabase.getInstance(context)
+
+    @Provides
+    @Singleton
+    fun provideRepositoriesCacheDao(database: AppDatabase) = database.repositoriesCacheDao()
+
+    @Provides
+    @Singleton
+    fun provideUserInfoCacheDao(database: AppDatabase) = database.userInfoCacheDao()
 }

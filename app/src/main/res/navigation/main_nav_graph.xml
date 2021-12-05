@@ -2,6 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_nav_graph">
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/userInfoFragment">
 
+    <fragment
+        android:id="@+id/userInfoFragment"
+        android:name="com.zarinpal.modules.userInfo.view.UserInfoFragment"
+        android:label="UserInfoFragment"
+        tools:layout="@layout/fragment_user_info" />
+    <fragment
+        android:id="@+id/repositoriesFragment"
+        android:name="com.zarinpal.modules.repositories.view.RepositoriesFragment"
+        android:label="RepositoryListFragment"
+        tools:layout="@layout/fragment_repositories" />
 </navigation>

@@ -1,0 +1,37 @@
+query Repositories($repositoryCount : Int! , $topicCount : Int!  ,  $name : String! , $cursor: String) {
+repositoryOwner(login: $name) {
+id
+avatarUrl
+url
+resourcePath
+repositories(first: $repositoryCount, after: $cursor) {
+pageInfo {
+endCursor
+hasNextPage
+hasPreviousPage
+startCursor
+}
+totalCount
+nodes {
+...RepositoryFragment
+}
+}
+}
+}
+
+fragment RepositoryFragment on Repository {
+id
+name
+description
+repositoryTopics(first: $topicCount) {
+nodes {
+...TopicFragment
+}
+}
+}
+
+fragment TopicFragment on RepositoryTopic {
+topic {
+name
+}
+}

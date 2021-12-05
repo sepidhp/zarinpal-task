@@ -1,5 +1,24 @@
 <resources>
     <string name="app_name">zarinpal task</string>
 
-    <string name="video_date_and_visit_count_with_value"> %d بازدید - %s</string>
+    <string name="retry">Retry</string>
+    <string name="exit">Exit</string>
+    <string name="return_">Return</string>
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="connection_error">Connection Error</string>
+    <string name="no_internet">There is no internet connection.</string>
+    <string name="socket_timeout">Can\'t connect to server.</string>
+    <string name="server_error_occurred">Something went wrong on server side.</string>
+    <string name="client_error_occurred">Something went wrong on client side.</string>
+    <string name="unknown_error_occurred">Unknown error occurred.</string>
+    <string name="unknown_error">Unknown Error</string>
+    <string name="error_with_code">Error (code %d)</string>
+    <string name="zarinpal">Zarinpal</string>
+    <string name="repositories">Repositories</string>
+    <string name="user_info">User info</string>
+    <string name="repository_count_wth_value">repository count : %d</string>
+    <string name="follower_following_count_with_value">%d followers. %d following.</string>
+    <string name="no_explanation_recorded">No explanation recorded</string>
 </resources>

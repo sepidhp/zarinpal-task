@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp">
 
     <ImageView
         android:id="@+id/imgIcon"
@@ -27,12 +29,12 @@
         android:textColor="@color/darkTextColor"
         android:textSize="16sp"
         android:visibility="gone"
-        app:fontFamily="@font/iran_yekan_fa_num_bold"
+        app:fontFamily="@font/poppins_semi_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgIcon"
         app:layout_goneMarginTop="0dp"
-        tools:text="عنوان دیالوگ"
+        tools:text="Title"
         tools:visibility="visible" />
 
     <TextView
@@ -43,13 +45,23 @@
         android:gravity="center"
         android:textSize="14sp"
         android:visibility="gone"
-        app:fontFamily="@font/iran_yekan_fa_num"
+        app:fontFamily="@font/poppins_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtTitle"
         app:layout_goneMarginTop="0dp"
-        tools:text="توضیحات دیالوگ"
+        tools:text="Message"
         tools:visibility="visible" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/dividerColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtMessage" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -63,43 +75,51 @@
         app:layout_constraintTop_toBottomOf="@+id/txtMessage">
 
         <Button
-            android:id="@+id/btnNegative"
+            android:id="@+id/btn_negative"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/btn_solid_white_round"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:padding="12dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorError"
             android:textSize="16sp"
             android:visibility="gone"
-            app:fontFamily="@font/iran_yekan_fa_num"
-            tools:text="خیر"
+            app:fontFamily="@font/poppins_regular"
+            tools:text="No"
             tools:visibility="visible" />
 
         <View
             android:id="@+id/divider"
-            android:layout_width="16dp"
-            android:layout_height="1dp"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="@color/dividerColor"
             android:visibility="gone"
             tools:visibility="visible" />
 
         <Button
-            android:id="@+id/btnPositive"
+            android:id="@+id/btn_positive"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/btn_solid_secondary_round"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:padding="12dp"
-            android:textColor="@color/white"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorSecondary"
             android:textSize="16sp"
             android:visibility="gone"
-            app:fontFamily="@font/iran_yekan_fa_num"
-            tools:text="بله"
+            app:fontFamily="@font/poppins_semi_bold"
+            tools:text="Yes"
             tools:visibility="visible" />
 
     </LinearLayout>
