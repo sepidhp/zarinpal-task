@@ -1,7 +1,6 @@
 package com.zarinpal.modules.repositories.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import com.zarinpal.fragment.RepositoryFragment
 import com.zarinpal.modules.repositories.viewModel.RepositoriesViewModel
 import com.zarinpal.utils.EndlessRecyclerViewScrollListener
 import com.zarinpal.utils.LinearDividerDecoration
-import com.zarinpal.utils.ProgressDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

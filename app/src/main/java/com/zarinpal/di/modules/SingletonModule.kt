@@ -3,6 +3,7 @@ package com.zarinpal.di.modules
 import android.content.Context
 import com.apollographql.apollo.ApolloClient
 import com.zarinpal.BuildConfig
+import com.zarinpal.data.local.AppDatabase
 import com.zarinpal.data.server.ExceptionInterceptor
 import com.zarinpal.data.server.LoggingInterceptor
 import dagger.Module
@@ -58,4 +59,12 @@ object SingletonModule {
             .serverUrl("https://api.github.com/graphql")
             .okHttpClient(okHttpClient)
             .build()
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext context: Context) = AppDatabase.getInstance(context)
+
+    @Provides
+    @Singleton
+    fun provideRepositoriesCacheDao(database: AppDatabase) = database.repositoriesCacheDao()
 }

@@ -4,7 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollographql.apollo.ApolloQueryCall
+import com.apollographql.apollo.api.Response
+import com.apollographql.apollo.api.ScalarTypeAdapters
+import com.apollographql.apollo.api.toJson
 import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo.response.OperationResponseParser
 import com.zarinpal.RepositoriesQuery
 import com.zarinpal.UserInfoQuery
 import com.zarinpal.data.server.CallException
@@ -56,7 +61,7 @@ class RepositoriesViewModel @Inject constructor(private val repository: Reposito
 
         viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
 
-            val result = repository.getRepositories(cursor).await()
+            val result = repository.getRepositories(cursor)
 
             withContext(Dispatchers.Main) {
 

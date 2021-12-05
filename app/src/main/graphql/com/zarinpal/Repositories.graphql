@@ -1,5 +1,6 @@
 query Repositories($repositoryCount : Int! , $topicCount : Int!  ,  $name : String! , $cursor: String) {
 repositoryOwner(login: $name) {
+id
 avatarUrl
 url
 resourcePath
